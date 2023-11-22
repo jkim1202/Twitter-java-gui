@@ -197,6 +197,7 @@ public class Twitter {
                         if (resultSet.next()) {
                             System.out.println("Liked already.");
                         } else {
+
                             // 좋아요 추가
                             String insertSQL = "INSERT INTO comment_like (User_user_no, Comment_id) VALUES (?, ?)";
                             PreparedStatement insertStatement = con.prepareStatement(insertSQL);
