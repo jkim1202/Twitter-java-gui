@@ -2,6 +2,7 @@ package twitter.GUI.designs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundJPasswordField extends JPasswordField {
@@ -15,6 +16,7 @@ public class RoundJPasswordField extends JPasswordField {
     public RoundJPasswordField(String text) {
         super(text);
         setOpaque(false);
+
     }
 
     public RoundJPasswordField(int size) {
@@ -25,14 +27,15 @@ public class RoundJPasswordField extends JPasswordField {
     @Override
     protected void paintComponent(Graphics g) {
         g.setColor(getBackground());
-        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
         super.paintComponent(g);
+
     }
 
     @Override
     protected void paintBorder(Graphics g) {
         g.setColor(getForeground());
-        g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
     }
 
     @Override

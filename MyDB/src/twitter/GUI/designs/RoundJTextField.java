@@ -2,6 +2,8 @@ package twitter.GUI.designs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundJTextField extends JTextField {
@@ -16,7 +18,26 @@ public class RoundJTextField extends JTextField {
         super(text);
         setOpaque(false); // As suggested by @AVD in comment.
     }
-
+    public RoundJTextField(String text, boolean bool) {
+        super(text);
+        setOpaque(false); // As suggested by @AVD in comment.
+        if(bool){
+            addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if(getText().equals("")||getText().equals(text)){
+                        setText("");
+                    }
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if(getText().equals("")){
+                        setText(text);
+                    }
+                }
+            });
+        }
+    }
     public RoundJTextField(int size) {
         super(size);
         setOpaque(false); // As suggested by @AVD in comment.

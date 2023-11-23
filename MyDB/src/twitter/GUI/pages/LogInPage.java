@@ -1,5 +1,6 @@
 package twitter.GUI.pages;
 
+import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.designs.RoundJPasswordField;
 import twitter.GUI.designs.RoundJTextField;
 
@@ -36,46 +37,82 @@ public class LogInPage extends JFrame {
         logInToTwitter.setHorizontalAlignment(JLabel.CENTER);
 
         // username, phone, email 텍스트 필드
-        RoundJTextField usernameField = new RoundJTextField("Phone,email or Username");
+        RoundJTextField usernameField = new RoundJTextField("Phone,email or Username",true);
         usernameField.setFont(new Font("맑은 고딕",Font.PLAIN,16));
-        usernameField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if(usernameField.getText().equals("")||usernameField.getText().equals("Phone,email or Username"))
-                    usernameField.setText("");
-            }
 
+
+        // password 패스워드 필드, JLayeredPane
+        /**
+         * 패스워드 필드위에 텍스트 띄우는 기능 보류
+         */
+        RoundJPasswordField passwordField = new RoundJPasswordField("Password");
+
+
+        // 버튼
+        RoundJButton loginButton = new RoundJButton("Log in",60);
+
+        // 비밀번호 찾기, 회원가입을 위한 panel
+        JPanel panel2 = new JPanel(new GridLayout(1, 2, 10, 10));
+        panel2.setBackground(Color.WHITE);
+
+        // 비밀번호 찾기 JLabel
+        JLabel findPassword = new JLabel("Forgot Password?");
+        findPassword.setForeground(new Color(82, 182, 236));
+        findPassword.setHorizontalAlignment(JLabel.RIGHT);
+        findPassword.addMouseListener(new MouseAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
-                if(usernameField.getText().equals(""))
-                    usernameField.setText("Phone,email or Username");
+            public void mouseEntered(MouseEvent e) {
+                findPassword.setForeground(new Color(82, 182, 236).darker());
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                findPassword.setForeground(new Color(82, 182, 236));
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setVisible(false);
+                SwingUtilities.invokeLater(MainPage::new);
+            }
+        });
+        // 회원가입 JLabel
+        JLabel signUp = new JLabel("Sign up for Twitter");
+        signUp.setForeground(new Color(82, 182, 236));
+        signUp.setHorizontalAlignment(JLabel.LEFT);
+        signUp.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                signUp.setForeground(new Color(82, 182, 236).darker());
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                signUp.setForeground(new Color(82, 182, 236));
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setVisible(false);
+                SwingUtilities.invokeLater(SignUpPage::new);
             }
         });
 
-
-        // password 패스워드 필드
-        RoundJPasswordField passwordField = new RoundJPasswordField("Password");
-        passwordField.setText("");
-        passwordField.requestFocus();
-        JLabel passwordLabel = new JLabel("Password:");
-
-        JButton loginButton = new JButton("Log in");
-
         panel.add(twitterLogo);
-        panel.add(logInToTwitter); // Empty label for spacing
+        panel.add(logInToTwitter);
         panel.add(usernameField);
         panel.add(passwordField);
-        panel.add(passwordLabel); // 버튼으로 바꿔야함
-        panel.add(loginButton); // 두개로 나눠야함.
+        panel.add(loginButton);
+        panel.add(panel2);
+        panel2.add(findPassword);
+        panel2.add(signUp);
+
 
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();
             char[] password = passwordField.getPassword();
 
             // Perform login logic here (not implemented in this example)
-            System.out.println("Username: " + username);
-            System.out.println("Password: " + new String(password));
-
+//            System.out.println("Username: " + username);
+//            System.out.println("Password: " + new String(password));
+            setVisible(false);
+            SwingUtilities.invokeLater(MainPage::new);
             // You should add your own logic to handle the login process
         });
 
@@ -83,7 +120,6 @@ public class LogInPage extends JFrame {
 
         setSize(450, 550);
         setResizable(false); // Make the frame not resizable
-//        pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
