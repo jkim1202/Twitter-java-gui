@@ -1,5 +1,6 @@
 package twitter.GUI.pages;
 
+import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.PostJPanel;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MainPage extends JFrame {
-    public MainPage() throws HeadlessException {
+    public MainPage(UserDao userDao) throws HeadlessException {
         super("Twitter Main");
         setTitle("Twitter Main");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,6 +99,9 @@ public class MainPage extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainPage::new);
+        SwingUtilities.invokeLater(() -> {
+            UserDao userDao = null; // insert test userDao
+            MainPage mainPage = new MainPage(userDao);
+        });
     }
 }

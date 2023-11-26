@@ -1,17 +1,24 @@
 package twitter.GUI.pages;
 
+import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.designs.RoundJPasswordField;
 import twitter.GUI.designs.RoundJTextField;
+import twitter.GUI.repository.UserRepository;
+import twitter.GUI.service.UserService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class LogInPage extends JFrame {
+    private final UserService userService = new UserService();
 
-    public LogInPage() {
+    public LogInPage(Connection con) {
         super("Twitter Login");
         setTitle("Twitter Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +78,11 @@ public class LogInPage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
-                SwingUtilities.invokeLater(MainPage::new);
+                SwingUtilities.invokeLater(() -> {
+                    UserDao userDao = null; // insert test userDao
+                    MainPage mainPage = new MainPage(userDao);
+                    mainPage.setVisible(true);
+                });
             }
         });
         // 회원가입 JLabel
@@ -107,13 +118,9 @@ public class LogInPage extends JFrame {
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();
             char[] password = passwordField.getPassword();
+            String strPassword = new String(password);
 
-            // Perform login logic here (not implemented in this example)
-//            System.out.println("Username: " + username);
-//            System.out.println("Password: " + new String(password));
-            setVisible(false);
-            SwingUtilities.invokeLater(MainPage::new);
-            // You should add your own logic to handle the login process
+            userService.logInUser(username,strPassword,con,this);
         });
 
         add(panel);
@@ -124,9 +131,15 @@ public class LogInPage extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(LogInPage::new);
-    }
+//    public static void main(String[] args) {
+//
+//        // page load
+//        SwingUtilities.invokeLater(() -> {
+//            UserDao userDao = null; // insert test userDao
+//            LogInPage logInPage = new LogInPage(finalCon);
+//        });
+////        SwingUtilities.invokeLater(LogInPage::new);
+//    }
 
 }
 
