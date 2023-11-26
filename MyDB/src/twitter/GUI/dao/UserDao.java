@@ -10,7 +10,7 @@ start_date date
 email varchar(40)
 profile_image_url varchar(45)*/
 public class UserDao {
-    private int user_no;
+    private Integer user_no;
     private String user_id;
     private String user_password;
     private String user_nickname;
@@ -46,7 +46,7 @@ public class UserDao {
         return user_profile_image_url;
     }
 
-    public UserDao(int user_no, String user_id, String user_password, String user_nickname, Date user_start_date, String user_email, String user_profile_image_url) {
+    public UserDao(Integer user_no, String user_id, String user_password, String user_nickname, Date user_start_date, String user_email, String user_profile_image_url) {
         this.user_no = user_no;
         this.user_id = user_id;
         this.user_password = user_password;

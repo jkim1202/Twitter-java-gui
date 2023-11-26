@@ -80,7 +80,7 @@ public class LogInPage extends JFrame {
                 setVisible(false);
                 SwingUtilities.invokeLater(() -> {
                     UserDao userDao = null; // insert test userDao
-                    MainPage mainPage = new MainPage(userDao);
+                    MainPage mainPage = new MainPage(userDao,con);
                     mainPage.setVisible(true);
                 });
             }
@@ -101,7 +101,9 @@ public class LogInPage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
-                SwingUtilities.invokeLater(SignUpPage::new);
+                SwingUtilities.invokeLater(() -> {
+                    SignUpPage signUpPage = new SignUpPage(con);
+                });;
             }
         });
 
@@ -116,11 +118,11 @@ public class LogInPage extends JFrame {
 
 
         loginButton.addActionListener(e -> {
-            String username = usernameField.getText();
+            String userId = usernameField.getText();
             char[] password = passwordField.getPassword();
             String strPassword = new String(password);
 
-            userService.logInUser(username,strPassword,con,this);
+            userService.logInUser(userId,strPassword,con,this);
         });
 
         add(panel);
