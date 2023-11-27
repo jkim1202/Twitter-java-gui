@@ -4,15 +4,13 @@ import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.designs.RoundJPasswordField;
 import twitter.GUI.designs.RoundJTextField;
-import twitter.GUI.repository.UserRepository;
 import twitter.GUI.service.UserService;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class LogInPage extends JFrame {
@@ -121,7 +119,7 @@ public class LogInPage extends JFrame {
             String userId = usernameField.getText();
             char[] password = passwordField.getPassword();
             String strPassword = new String(password);
-
+//            setVisible(false);
             userService.logInUser(userId,strPassword,con,this);
         });
 

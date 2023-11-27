@@ -9,6 +9,7 @@ nickname varchar(20)
 start_date date
 email varchar(40)
 profile_image_url varchar(45)*/
+
 public class UserDao {
     private Integer user_no;
     private String user_id;

@@ -43,8 +43,9 @@ public class PostJPanel extends JPanel {
         // id 생성
         var userId = new JLabel(id);
         JPanel idP = new JPanel();
+        idP.setBackground(Color.white);
         userId.setHorizontalAlignment(JLabel.LEFT);
-        userId.setBackground(Color.red);
+//        userId.setBackground(Color.red);
         idP.add(userId);
         centerP.add(idP);
 

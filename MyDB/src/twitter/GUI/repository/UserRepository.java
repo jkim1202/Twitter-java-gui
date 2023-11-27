@@ -2,8 +2,10 @@ package twitter.GUI.repository;
 
 import twitter.GUI.dao.UserDao;
 
-import javax.swing.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class UserRepository {

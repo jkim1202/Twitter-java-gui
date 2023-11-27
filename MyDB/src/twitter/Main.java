@@ -16,7 +16,7 @@ public class Main {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/mydb";
-            String user = "root", passwd = "Wjdrmf12!@";
+            String user = "root", passwd = "1234";
             con = DriverManager.getConnection(url, user, passwd);
             System.out.println(con);
         } catch (ClassNotFoundException | SQLException exception) {

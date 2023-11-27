@@ -8,8 +8,7 @@ import twitter.GUI.pages.SignUpPage;
 import twitter.GUI.repository.UserRepository;
 
 import javax.swing.*;
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.Connection;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
@@ -19,6 +18,7 @@ public class UserService {
             JOptionPane.showMessageDialog(null, "Check your ID and password please.", "Log In Failed", JOptionPane.ERROR_MESSAGE);
         }
         else {
+            logInPage.setVisible(false);
             SwingUtilities.invokeLater(() -> {
                 MainPage mainPage = new MainPage(userDao, con);
             });
