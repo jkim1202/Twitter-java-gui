@@ -1,20 +1,34 @@
 package twitter.GUI.designs;
 
-import twitter.GUI.pages.LogInPage;
+import twitter.GUI.dao.PostInfoDao;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class PostJPanel extends JPanel {
-    // 추후 패러미터 DAO로 변경
-    public PostJPanel(String postText, ArrayList<String> urls, String proUrl, String id) {
+
+    public PostJPanel(PostInfoDao postInfoDao) {
+        super();
         /*
          * 게시물 정보 쿼리로 조회해서 넘겨 받으면 패널 안에 게시물 형태로 생성 시키기*/
-        super();
+
+        String postText = postInfoDao.getPost_content();
+        String[] parts;
+        ArrayList<String> urls = new ArrayList<>();
+        if (postInfoDao.getImage_urls() != null) {
+            parts = postInfoDao.getImage_urls().split(",");
+            urls = new ArrayList<>(Arrays.asList(parts));
+        }
+        String proUrl = postInfoDao.getWriter_profile_img_url();
+        String id = postInfoDao.getWriter_id();
+
+
         setBackground(Color.white);
         setLayout(new BorderLayout());
+
         // west panel --> profile image
         JPanel westP = new JPanel();
         westP.setBackground(Color.white);
@@ -28,30 +42,32 @@ public class PostJPanel extends JPanel {
         add(centerP,"Center");
 
         // profile image 생성
-        JLabel profileImg = new JLabel();
-        ImageIcon icon = new ImageIcon(
-                Objects.requireNonNull(LogInPage.class.getResource(proUrl))
-        );
-        Image img = icon.getImage();
-        Image updateImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        ImageIcon updateIcon = new ImageIcon(updateImg);
-        profileImg.setIcon(updateIcon);
+        ImageJLabel profileImg;
+        profileImg = new ImageJLabel(Objects.requireNonNullElse(proUrl, "../TwitterLogo.png"), 40, 40);
+        profileImg.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         profileImg.setVerticalAlignment(JLabel.TOP);
         westP.add(profileImg,"North");
 
 
         // id 생성
         var userId = new JLabel(id);
+        userId.setFont(new Font("sansSerif",Font.BOLD,16));
+        userId.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 10));
         JPanel idP = new JPanel();
+        idP.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx  = 1;
+        gbc.anchor = GridBagConstraints.WEST; // 왼쪽 정렬을 위한 anchor 설정
+        idP.add(userId,gbc);
         idP.setBackground(Color.white);
-        userId.setHorizontalAlignment(JLabel.LEFT);
-//        userId.setBackground(Color.red);
-        idP.add(userId);
         centerP.add(idP);
 
+
         // text 생성
-        var text = new JTextArea(postText);
-        text.setSize(new Dimension(400,text.getPreferredSize().height));
+        JTextArea text = new JTextArea(postText);
+
+        text.setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 10));
+        text.setSize(new Dimension(350,text.getPreferredSize().height));
         text.setLineWrap(true);
         text.setEditable(false);
         centerP.add(text);
@@ -60,19 +76,35 @@ public class PostJPanel extends JPanel {
         for(String url : urls){
             JPanel p = new JPanel();
             p.setBackground(Color.WHITE);
-            JLabel contentImg = new JLabel();
-            ImageIcon icon2 = new ImageIcon(
-                    Objects.requireNonNull(LogInPage.class.getResource(url))
-            );
-            Image img2 = icon2.getImage();
-            Image updateImg2 = img2.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-            ImageIcon updateIcon2 = new ImageIcon(updateImg2);
-            contentImg.setIcon(updateIcon2);
-            contentImg.setHorizontalAlignment(JLabel.LEFT);
+            ImageJLabel contentImg = new ImageJLabel(url,150,150);
             p.add(contentImg);
             centerP.add(p);
         }
 
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        // 하단 JPanel (좋아요, 댓글)
+        // 댓글은 누르면 댓글 페이지로 전환
+        JPanel bottomP = new JPanel();
+        bottomP.setLayout(new GridLayout(1,2));
+        JPanel likeP = new JPanel();
+        likeP.setBackground(Color.white);
+        JPanel commentP = new JPanel();
+        commentP.setBackground(Color.white);
+        bottomP.add(likeP);
+        bottomP.add(commentP);
+        centerP.add(bottomP);
+
+        // 좋아요, 댓글 이미지
+        /**
+         * 미완성. 액션이벤트 추가
+         */
+        ImageJLabel like = new ImageJLabel("../Like.png", 20,20);
+        JLabel likeCnt = new JLabel(postInfoDao.getPost_like_count().toString());
+        likeP.add(like);
+        likeP.add(likeCnt);
+        ImageJLabel comment = new ImageJLabel("../Comment.png", 20,20);
+        commentP.add(comment);
+
+        // 테두리
+        setBorder(BorderFactory.createLineBorder(new Color(234, 232, 232, 173), 1));
     }
 }

@@ -2,6 +2,8 @@ package twitter.GUI.designs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.geom.RoundRectangle2D;
 
@@ -16,7 +18,29 @@ public class RoundJPasswordField extends JPasswordField {
     public RoundJPasswordField(String text) {
         super(text);
         setOpaque(false);
-
+    }
+    
+    public RoundJPasswordField(String text, boolean bool) {
+        super(text);
+        setOpaque(false); // As suggested by @AVD in comment.
+        if(bool){
+            addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    String password = new String(getPassword());
+                    if(password.equals("")||password.equals(text)){
+                        setText("");
+                    }
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    String password = new String(getPassword());
+                    if(password.equals("")){
+                        setText(text);
+                    }
+                }
+            });
+        }
     }
 
     public RoundJPasswordField(int size) {

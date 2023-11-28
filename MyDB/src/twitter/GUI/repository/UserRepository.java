@@ -9,19 +9,21 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class UserRepository {
-    public UserDao findUserByIdAndPassword(Connection con, String input_name, String input_password){
+    public UserDao findUserByIdAndPassword(Connection con, String input_id_or_email, String input_password){
         ResultSet rs = null;
         PreparedStatement pstm = null;
 
         try{
-            String sql = "SELECT * FROM USER WHERE id = ? AND password = ?";
+            String sql = "SELECT * FROM USER WHERE (id = ? OR email = ?) AND password = ?";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1,input_name);
-            pstm.setString(2, input_password);
+            pstm.setString(1,input_id_or_email);
+            pstm.setString(2,input_id_or_email);
+            pstm.setString(3,input_password);
             rs = pstm.executeQuery();
 
             if(rs.next()){
                 UserDao user = new UserDao(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getDate(5),rs.getString(6),rs.getString(7));
+                System.out.println(user.getId());
                 return user;
             }
             else{
@@ -40,7 +42,7 @@ public class UserRepository {
         try{
             String findSql = "select id from user where id = ?";
             pstm = con.prepareStatement(findSql);
-            pstm.setString(1,userDao.getUser_id());
+            pstm.setString(1,userDao.getId());
             rs = pstm.executeQuery();
             if (rs.next()){
                 return null;
@@ -48,14 +50,14 @@ public class UserRepository {
             else {
                 String insertSql = "INSERT INTO USER (ID, PASSWORD, NICKNAME, START_DATE, EMAIL) VALUES (?, ?, ?, ?, ?)";
                 pstm1 = con.prepareStatement(insertSql);
-                pstm1.setString(1, userDao.getUser_id());
-                pstm1.setString(2, userDao.getUser_password());
-                pstm1.setString(3, userDao.getUser_nickname());
+                pstm1.setString(1, userDao.getId());
+                pstm1.setString(2, userDao.getPassword());
+                pstm1.setString(3, userDao.getNickname());
 
                 // Use setDate to set the date value
                 pstm1.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
 
-                pstm1.setString(5, userDao.getUser_email());
+                pstm1.setString(5, userDao.getEmail());
 
                 int rowsInserted = pstm1.executeUpdate();
                 if(rowsInserted > 0){

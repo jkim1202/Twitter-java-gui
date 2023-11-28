@@ -12,14 +12,7 @@ public class FollowPanel extends JPanel {
         setSize(new Dimension(350,70));
         setLayout(new BorderLayout());
         // Profile Image JLabel
-        JLabel profileImg = new JLabel();
-        ImageIcon icon = new ImageIcon(
-                Objects.requireNonNull(LogInPage.class.getResource(url))
-        );
-        Image img = icon.getImage();
-        Image updateImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        ImageIcon updateIcon = new ImageIcon(updateImg);
-        profileImg.setIcon(updateIcon);
+        ImageJLabel profileImg = new ImageJLabel(url,40,40);
         profileImg.setHorizontalAlignment(JLabel.LEFT);
 
         // Container panels
@@ -31,7 +24,6 @@ public class FollowPanel extends JPanel {
         // Follower,Following user info JLabel
         JLabel userId = new JLabel("id: "+id);
         JLabel userNickname = new JLabel("nickname: "+nickname);
-//        userId.setSize(new Dimension(400, userId.getPreferredSize().height));
 
         JButton button = new  JButton("Unfollow");
         button.setSize(100,50);

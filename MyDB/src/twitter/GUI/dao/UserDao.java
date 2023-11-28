@@ -12,48 +12,48 @@ profile_image_url varchar(45)*/
 
 public class UserDao {
     private Integer user_no;
-    private String user_id;
-    private String user_password;
-    private String user_nickname;
-    private Date user_start_date;
-    private String user_email;
-    private String user_profile_image_url;
+    private String id;
+    private String password;
+    private String nickname;
+    private Date start_date;
+    private String email;
+    private String profile_image_url;
 
     public int getUser_no() {
         return user_no;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getId() {
+        return id;
     }
 
-    public String getUser_password() {
-        return user_password;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUser_nickname() {
-        return user_nickname;
+    public String getNickname() {
+        return nickname;
     }
 
-    public Date getUser_start_date() {
-        return user_start_date;
+    public Date getStart_date() {
+        return start_date;
     }
 
-    public String getUser_email() {
-        return user_email;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUser_profile_image_url() {
-        return user_profile_image_url;
+    public String getProfile_image_url() {
+        return profile_image_url;
     }
 
     public UserDao(Integer user_no, String user_id, String user_password, String user_nickname, Date user_start_date, String user_email, String user_profile_image_url) {
         this.user_no = user_no;
-        this.user_id = user_id;
-        this.user_password = user_password;
-        this.user_nickname = user_nickname;
-        this.user_start_date = user_start_date;
-        this.user_email = user_email;
-        this.user_profile_image_url = user_profile_image_url;
+        this.id = user_id;
+        this.password = user_password;
+        this.nickname = user_nickname;
+        this.start_date = user_start_date;
+        this.email = user_email;
+        this.profile_image_url = user_profile_image_url;
     }
 }

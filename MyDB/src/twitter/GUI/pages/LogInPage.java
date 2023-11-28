@@ -1,9 +1,7 @@
 package twitter.GUI.pages;
 
 import twitter.GUI.dao.UserDao;
-import twitter.GUI.designs.RoundJButton;
-import twitter.GUI.designs.RoundJPasswordField;
-import twitter.GUI.designs.RoundJTextField;
+import twitter.GUI.designs.*;
 import twitter.GUI.service.UserService;
 
 import javax.swing.*;
@@ -26,15 +24,7 @@ public class LogInPage extends JFrame {
         // panel 상하좌우로 10px씩 여백 패딩
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // 트위터 로고 JLabel
-        JLabel twitterLogo = new JLabel();
-        ImageIcon icon = new ImageIcon(
-                Objects.requireNonNull(LogInPage.class.getResource("../TwitterLogo.png"))
-        );
-        Image img = icon.getImage();
-        Image updateImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        ImageIcon updateIcon = new ImageIcon(updateImg);
-        twitterLogo.setIcon(updateIcon);
+        ImageJLabel twitterLogo = new ImageJLabel("../TwitterLogo.png", 40,40);
 
         // Log in to Twitter Label
         JLabel logInToTwitter = new JLabel("Log in to Twitter");
@@ -42,7 +32,7 @@ public class LogInPage extends JFrame {
         logInToTwitter.setHorizontalAlignment(JLabel.CENTER);
 
         // username, phone, email 텍스트 필드
-        RoundJTextField usernameField = new RoundJTextField("Phone,email or Username",true);
+        RoundJTextField usernameField = new RoundJTextField("Email or User ID",true);
         usernameField.setFont(new Font("맑은 고딕",Font.PLAIN,16));
 
 
@@ -50,8 +40,7 @@ public class LogInPage extends JFrame {
         /**
          * 패스워드 필드위에 텍스트 띄우는 기능 보류
          */
-        RoundJPasswordField passwordField = new RoundJPasswordField("Password");
-
+        RoundJPasswordField passwordField = new RoundJPasswordField("Password", true);
 
         // 버튼
         RoundJButton loginButton = new RoundJButton("Log in",60);
@@ -61,18 +50,9 @@ public class LogInPage extends JFrame {
         panel2.setBackground(Color.WHITE);
 
         // 비밀번호 찾기 JLabel
-        JLabel findPassword = new JLabel("Forgot Password?");
-        findPassword.setForeground(new Color(82, 182, 236));
+        ActionJLabel findPassword = new ActionJLabel("Forgot Password?");
         findPassword.setHorizontalAlignment(JLabel.RIGHT);
         findPassword.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                findPassword.setForeground(new Color(82, 182, 236).darker());
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                findPassword.setForeground(new Color(82, 182, 236));
-            }
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
@@ -84,18 +64,9 @@ public class LogInPage extends JFrame {
             }
         });
         // 회원가입 JLabel
-        JLabel signUp = new JLabel("Sign up for Twitter");
-        signUp.setForeground(new Color(82, 182, 236));
+        ActionJLabel signUp = new ActionJLabel("Sign up for Twitter");
         signUp.setHorizontalAlignment(JLabel.LEFT);
         signUp.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                signUp.setForeground(new Color(82, 182, 236).darker());
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                signUp.setForeground(new Color(82, 182, 236));
-            }
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
