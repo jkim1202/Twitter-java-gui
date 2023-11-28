@@ -29,6 +29,7 @@ public class PostRepository {
                     while (resultSet.next()) {
                         PostInfoDao postInfoDao = new PostInfoDao();
                         postInfoDao.setUser_no(resultSet.getInt("user_no"));
+                        postInfoDao.setId(resultSet.getInt("id"));
                         postInfoDao.setWriter_id(resultSet.getString("writer_id"));
                         postInfoDao.setWriter_profile_img_url(resultSet.getString("writer_profile_img_url"));
                         postInfoDao.setPost_content(resultSet.getString("post_content"));

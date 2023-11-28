@@ -30,7 +30,7 @@ public class PostService {
 //                    images = new ArrayList<>(Arrays.asList(parts));
 //                }
 //                PostJPanel post = new PostJPanel(postInfo.getPost_content(), images, postInfo.getWriter_profile_img_url(), postInfo.getWriter_id());
-                PostJPanel post = new PostJPanel(postInfo);
+                PostJPanel post = new PostJPanel(postInfo,con);
                 midPanel.add(post);
             }
         }

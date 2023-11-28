@@ -1,16 +1,23 @@
 package twitter.GUI.designs;
 
+import twitter.GUI.dao.LikePostDao;
 import twitter.GUI.dao.PostInfoDao;
+import twitter.GUI.repository.LikePostRepository;
+import twitter.GUI.service.LikePostService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class PostJPanel extends JPanel {
+    private LikePostService likePostService = new LikePostService();
 
-    public PostJPanel(PostInfoDao postInfoDao) {
+    public PostJPanel(PostInfoDao postInfoDao, Connection con) {
         super();
         /*
          * 게시물 정보 쿼리로 조회해서 넘겨 받으면 패널 안에 게시물 형태로 생성 시키기*/
@@ -99,9 +106,23 @@ public class PostJPanel extends JPanel {
          */
         ImageJLabel like = new ImageJLabel("../Like.png", 20,20);
         JLabel likeCnt = new JLabel(postInfoDao.getPost_like_count().toString());
+        like.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int newNo = likePostService.updateLike(con, new LikePostDao( postInfoDao.getUser_no(),postInfoDao.getId()));
+                likeCnt.setText(Integer.toString(newNo));
+            }
+        });
         likeP.add(like);
         likeP.add(likeCnt);
         ImageJLabel comment = new ImageJLabel("../Comment.png", 20,20);
+        comment.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int newNo = likePostService.updateLike(con, new LikePostDao( postInfoDao.getUser_no(),postInfoDao.getId()));
+                likeCnt.setText(Integer.toString(newNo));
+            }
+        });
         commentP.add(comment);
 
         // 테두리
