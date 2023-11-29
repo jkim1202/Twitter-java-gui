@@ -5,17 +5,24 @@ import java.awt.*;
 
 public class RoundJButton extends JButton {
     private int arcSize = 0;
+    private Color textC = new Color(255,255,255);
+    private Color bntC = new Color(82, 182, 236);
     public RoundJButton() { super(); decorate(); }
     public RoundJButton(String text) { super(text); decorate(); }
     public RoundJButton(String text, int newArcSize) { super(text); arcSize=newArcSize; decorate(); }
+    public RoundJButton(String text, int newArcSize, Color bntColor, Color textColor) { super(text);
+        arcSize=newArcSize; decorate();
+        textC = textColor;
+        bntC = bntColor;
+    }
     public RoundJButton(Action action) { super(action); decorate(); }
     public RoundJButton(Icon icon) { super(icon); decorate(); }
     public RoundJButton(String text, Icon icon) { super(text, icon); decorate(); }
     protected void decorate() { setBorderPainted(false); setOpaque(false); }
     @Override
     protected void paintComponent(Graphics g) {
-        Color c=new Color(82, 182, 236); //배경색 결정
-        Color o=new Color(255,255,255); //글자색 결정
+        Color c= bntC; //배경색 결정
+        Color o= textC; //글자색 결정
         int width = getWidth();
         int height = getHeight();
         Graphics2D graphics = (Graphics2D) g;

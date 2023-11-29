@@ -23,7 +23,8 @@ public class UserRepository {
 
             if(rs.next()){
                 UserDao user = new UserDao(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getDate(5),rs.getString(6),rs.getString(7));
-                System.out.println(user.getId());
+                System.out.println("user.getUser_no() = " + user.getUser_no());
+                System.out.println("user.getId() = " + user.getId());
                 return user;
             }
             else{

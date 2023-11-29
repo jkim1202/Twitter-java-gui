@@ -1,22 +1,27 @@
 package twitter.GUI.pages;
 
+import twitter.GUI.dao.PostDao;
+import twitter.GUI.dao.PostInfoDao;
+import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.ImageJLabel;
 import twitter.GUI.designs.RoundJButton;
+import twitter.GUI.service.CommentService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.sql.Connection;
 
-public class TestPage {
-    private JFrame solverUI;
+public class CommentPage extends JFrame{
+    private final CommentService commentService = new CommentService();
     private JPanel panel;
     private JLabel lbl[];
     private JTextArea eq_Fields[];
 
-    public TestPage(int Count) {
-        solverUI = new JFrame("Solver");
-        solverUI.setLocationByPlatform(true);
-        solverUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    public CommentPage(int Count) {
+        super("Solver");
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         panel = new JPanel(new BorderLayout());
         JPanel labels = new JPanel(new GridLayout(0, 1, 0, 1));
@@ -77,30 +82,62 @@ public class TestPage {
             fieldsContainer.add(butsPanel, "South");
         }
         RoundJButton btnSolve = new RoundJButton("Solve Equations!", 0, Color.GRAY, Color.white);
-        solverUI.add(btnSolve, BorderLayout.PAGE_END);
+        add(btnSolve, BorderLayout.PAGE_END);
 
         JScrollPane jp = new JScrollPane(
                 panel,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        solverUI.add(jp);
+        add(jp);
 
-        solverUI.pack();
-        Dimension d = solverUI.getSize();
+        pack();
+        Dimension d = getSize();
         int w = (int) d.getWidth();
         int h = (int) d.getHeight();
         System.out.println("h = " + h);
         h = (h > 400 ? 400 : h);
         Dimension shrinkHeight = new Dimension(w, h);
-        solverUI.setSize(shrinkHeight);
+        setSize(shrinkHeight);
     }
+    public CommentPage(PostInfoDao postInfoDao, Connection con) {
+        super("Solver");
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        panel = new JPanel(new BorderLayout());
+        JPanel labels = new JPanel(new GridLayout(0, 1, 0, 1));
+//        JPanel fields = new JPanel(new GridLayout(0, 1, 0, 1));
+        JPanel fields = new JPanel(new GridLayout(0, 1, 0, 1));
+        panel.add(labels, BorderLayout.LINE_START);
+        panel.add(fields, BorderLayout.CENTER);
+
+        // get comment and add JPanels
+        commentService.findAllCommentsByPost(labels,fields,postInfoDao, con);
+
+        RoundJButton btnSolve = new RoundJButton("Solve Equations!", 0, Color.GRAY, Color.white);
+        add(btnSolve, BorderLayout.PAGE_END);
+
+        JScrollPane jp = new JScrollPane(
+                panel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        add(jp);
+
+        pack();
+        Dimension d = getSize();
+        int w = (int) d.getWidth();
+        int h = (int) d.getHeight();
+        System.out.println("h = " + h);
+        h = (h > 400 ? 400 : h);
+        Dimension shrinkHeight = new Dimension(w, h);
+        setSize(shrinkHeight);
+    }
     public static void main(String[] args) {
         Runnable r = new Runnable() {
 
             @Override
             public void run() {
-                TestPage sui = new TestPage(3);
+                CommentPage sui = new CommentPage(3);
                 sui.showUserInterface();
             }
         };
@@ -108,6 +145,6 @@ public class TestPage {
     }
 
     public void showUserInterface() {
-        solverUI.setVisible(true);
+        setVisible(true);
     }
 }

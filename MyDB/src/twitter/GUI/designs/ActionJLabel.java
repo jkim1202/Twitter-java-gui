@@ -21,5 +21,19 @@ public class ActionJLabel extends JLabel {
             }
         });
     }
+    public ActionJLabel(String text, Color c) {
+        super(text);
+        setForeground(c);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setForeground(c.darker().darker());
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setForeground(c);
+            }
+        });
+    }
 }
 

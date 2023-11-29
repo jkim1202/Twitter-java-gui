@@ -3,12 +3,12 @@ package twitter.GUI.dao;
 public class LikePostDao {
     private Integer user_user_no;
 
+    private Integer post_id;
+
     public LikePostDao(Integer user_user_no, Integer post_id) {
         this.user_user_no = user_user_no;
         this.post_id = post_id;
     }
-
-    private Integer post_id;
 
     public void setUser_user_no(Integer user_user_no) {
         this.user_user_no = user_user_no;

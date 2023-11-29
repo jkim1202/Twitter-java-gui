@@ -2,7 +2,8 @@ package twitter.GUI.designs;
 
 import twitter.GUI.dao.LikePostDao;
 import twitter.GUI.dao.PostInfoDao;
-import twitter.GUI.repository.LikePostRepository;
+import twitter.GUI.dao.UserDao;
+import twitter.GUI.pages.CommentPage;
 import twitter.GUI.service.LikePostService;
 
 import javax.swing.*;
@@ -15,10 +16,12 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class PostJPanel extends JPanel {
+    private PostInfoDao postInfoDao;
     private LikePostService likePostService = new LikePostService();
 
-    public PostJPanel(PostInfoDao postInfoDao, Connection con) {
+    public PostJPanel(PostInfoDao postInfoDao, UserDao user, Connection con) {
         super();
+        this.postInfoDao = postInfoDao;
         /*
          * 게시물 정보 쿼리로 조회해서 넘겨 받으면 패널 안에 게시물 형태로 생성 시키기*/
 
@@ -40,32 +43,32 @@ public class PostJPanel extends JPanel {
         JPanel westP = new JPanel();
         westP.setBackground(Color.white);
         westP.setLayout(new BorderLayout());
-        add(westP,"West");
+        add(westP, "West");
 
         // center panel --> text, content images, id
         JPanel centerP = new JPanel();
         centerP.setBackground(Color.white);
         centerP.setLayout(new BoxLayout(centerP, BoxLayout.Y_AXIS));
-        add(centerP,"Center");
+        add(centerP, "Center");
 
         // profile image 생성
         ImageJLabel profileImg;
         profileImg = new ImageJLabel(Objects.requireNonNullElse(proUrl, "../TwitterLogo.png"), 40, 40);
         profileImg.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         profileImg.setVerticalAlignment(JLabel.TOP);
-        westP.add(profileImg,"North");
+        westP.add(profileImg, "North");
 
 
         // id 생성
         var userId = new JLabel(id);
-        userId.setFont(new Font("sansSerif",Font.BOLD,16));
+        userId.setFont(new Font("sansSerif", Font.BOLD, 16));
         userId.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 10));
         JPanel idP = new JPanel();
         idP.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx  = 1;
+        gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.WEST; // 왼쪽 정렬을 위한 anchor 설정
-        idP.add(userId,gbc);
+        idP.add(userId, gbc);
         idP.setBackground(Color.white);
         centerP.add(idP);
 
@@ -74,56 +77,120 @@ public class PostJPanel extends JPanel {
         JTextArea text = new JTextArea(postText);
 
         text.setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 10));
-        text.setSize(new Dimension(350,text.getPreferredSize().height));
+        text.setSize(new Dimension(350, text.getPreferredSize().height));
         text.setLineWrap(true);
         text.setEditable(false);
         centerP.add(text);
 
         // 이미지 생성
-        for(String url : urls){
+        for (String url : urls) {
             JPanel p = new JPanel();
             p.setBackground(Color.WHITE);
-            ImageJLabel contentImg = new ImageJLabel(url,150,150);
+            ImageJLabel contentImg = null;
+            contentImg = new ImageJLabel(Objects.requireNonNullElse(url, "../P2.png"), 150, 150);
             p.add(contentImg);
             centerP.add(p);
         }
 
-        // 하단 JPanel (좋아요, 댓글)
+        // 하단 JPanel (좋아요, 댓글, view)
         // 댓글은 누르면 댓글 페이지로 전환
         JPanel bottomP = new JPanel();
-        bottomP.setLayout(new GridLayout(1,2));
+        bottomP.setLayout(new GridLayout(1, 3));
         JPanel likeP = new JPanel();
         likeP.setBackground(Color.white);
         JPanel commentP = new JPanel();
         commentP.setBackground(Color.white);
+        JPanel viewP = new JPanel();
+        viewP.setBackground(Color.white);
         bottomP.add(likeP);
         bottomP.add(commentP);
+        bottomP.add(viewP);
         centerP.add(bottomP);
 
-        // 좋아요, 댓글 이미지
+        // 좋아요, 댓글 이미지, view
         /**
-         * 미완성. 액션이벤트 추가
+         * 미완성. 코멘트 액션이벤트 추가
          */
-        ImageJLabel like = new ImageJLabel("../Like.png", 20,20);
+        ImageJLabel like = new ImageJLabel("../Like.png", 20, 20);
         JLabel likeCnt = new JLabel(postInfoDao.getPost_like_count().toString());
         like.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int newNo = likePostService.updateLike(con, new LikePostDao( postInfoDao.getUser_no(),postInfoDao.getId()));
+                int newNo = likePostService.updateLike(con, new LikePostDao(user.getUser_no(), postInfoDao.getId()));
                 likeCnt.setText(Integer.toString(newNo));
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                likeP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                likeP.setBackground(Color.white);
+            }
+        });
+        likeP.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int newNo = likePostService.updateLike(con, new LikePostDao(user.getUser_no(), postInfoDao.getId()));
+                likeCnt.setText(Integer.toString(newNo));
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                likeP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                likeP.setBackground(Color.white);
             }
         });
         likeP.add(like);
         likeP.add(likeCnt);
-        ImageJLabel comment = new ImageJLabel("../Comment.png", 20,20);
+        ImageJLabel comment = new ImageJLabel("../Comment.png", 20, 20);
         comment.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int newNo = likePostService.updateLike(con, new LikePostDao( postInfoDao.getUser_no(),postInfoDao.getId()));
-                likeCnt.setText(Integer.toString(newNo));
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
+                if (frame != null) {
+                    frame.setVisible(false);
+                    CommentPage commentPage =   new CommentPage(postInfoDao,con);
+                    commentPage.setVisible(true);
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                commentP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                commentP.setBackground(Color.white);
+            }
+        });
+        commentP.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
+                if (frame != null) {
+                    frame.setVisible(false);
+                    CommentPage commentPage =   new CommentPage(postInfoDao,con);
+                    commentPage.setVisible(true);
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                commentP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                commentP.setBackground(Color.white);
             }
         });
         commentP.add(comment);
+        JLabel view = new JLabel("View: " + postInfoDao.getPost_view());
+        viewP.add(view);
 
         // 테두리
         setBorder(BorderFactory.createLineBorder(new Color(234, 232, 232, 173), 1));

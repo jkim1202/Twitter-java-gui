@@ -13,8 +13,9 @@ public class Main {
 /**
  * 메인 페이지:
  *  남은 기능 -->   좋아요 Update, Event (완)
- *                 코멘트,개인정보 페이지로 넘어가기 Event
- *                 게시물 생성 Create
+ *                 코멘트,개인정보 페이지로 넘어가기 Event (완)
+ *                 게시물 생성 Create (완)
+ *                 조회수 확인 및 업데이트 Update, Read (완)
  * 코멘트 페이지:
  *  남은 기능 -->    코멘트 로드 및 child 코멘트 로드 Read
  *                 코멘트 생성 Create
