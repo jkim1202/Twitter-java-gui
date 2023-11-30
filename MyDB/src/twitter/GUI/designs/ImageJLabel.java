@@ -49,15 +49,14 @@ public class ImageJLabel extends JLabel {
         ImageIcon icon = null;
         // todo: null image >> 기본 이미지로 설정
         if(path == null){
-            path = "../T2.png";
+            path = "../defaultProfile.png";
         }
         // Check if the path is absolute or relative
-        if (path != null && path.contains(":")) {
+        if (path.contains(":")) {
             // Absolute path, try to load directly
             icon = new ImageIcon(path);
         } else {
             // Relative path, load using class loader
-            assert path != null;
             URL resource = getClass().getResource(path);
             if (resource != null) {
                 icon = new ImageIcon(resource);

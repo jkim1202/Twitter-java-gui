@@ -3,7 +3,9 @@ package twitter.GUI.dao;
 import java.util.Date;
 
 public class PostInfoDao {
+    // post를 검색한 user의 user_no
     private Integer user_no;
+    // user id
     private String writer_id;
     private String writer_profile_img_url;
     // post id

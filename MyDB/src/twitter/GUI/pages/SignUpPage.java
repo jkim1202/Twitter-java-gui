@@ -1,5 +1,6 @@
 package twitter.GUI.pages;
 
+import com.mysql.cj.log.Log;
 import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.designs.RoundJPasswordField;
 import twitter.GUI.designs.RoundJTextField;
@@ -7,13 +8,23 @@ import twitter.GUI.service.UserService;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 
 public class SignUpPage extends JFrame {
     private final UserService userService = new UserService();
     public SignUpPage(Connection con) throws HeadlessException {
         super("Sign up Page");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                SignUpPage.this.dispose();
+                LogInPage logInPage = new LogInPage(con);
+                logInPage.setVisible(true);
+            }
+        });
 
         JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
         panel.setBackground(Color.WHITE);

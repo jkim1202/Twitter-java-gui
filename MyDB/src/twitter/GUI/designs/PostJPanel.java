@@ -53,7 +53,7 @@ public class PostJPanel extends JPanel {
 
         // profile image 생성
         ImageJLabel profileImg;
-        profileImg = new ImageJLabel(Objects.requireNonNullElse(proUrl, "../TwitterLogo.png"), 40, 40);
+        profileImg = new ImageJLabel(Objects.requireNonNullElse(proUrl, "../defaultProfile.png"), 40, 40);
         profileImg.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         profileImg.setVerticalAlignment(JLabel.TOP);
         westP.add(profileImg, "North");
@@ -111,6 +111,9 @@ public class PostJPanel extends JPanel {
         /**
          * 미완성. 코멘트 액션이벤트 추가
          */
+        // like 있는지 확인
+        // 있으면 빨간하트
+        // 없으면 빈하트
         ImageJLabel like = new ImageJLabel("../Like.png", 20, 20);
         JLabel likeCnt = new JLabel(postInfoDao.getPost_like_count().toString());
         like.addMouseListener(new MouseAdapter() {
@@ -154,7 +157,7 @@ public class PostJPanel extends JPanel {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
                 if (frame != null) {
                     frame.setVisible(false);
-                    CommentPage commentPage =   new CommentPage(postInfoDao,con);
+                    CommentPage commentPage =   new CommentPage(postInfoDao,user,con);
                     commentPage.setVisible(true);
                 }
             }
@@ -174,7 +177,7 @@ public class PostJPanel extends JPanel {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
                 if (frame != null) {
                     frame.setVisible(false);
-                    CommentPage commentPage =   new CommentPage(postInfoDao,con);
+                    CommentPage commentPage =   new CommentPage(postInfoDao,user, con);
                     commentPage.setVisible(true);
                 }
             }

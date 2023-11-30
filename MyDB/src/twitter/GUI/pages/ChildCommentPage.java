@@ -1,10 +1,9 @@
 package twitter.GUI.pages;
 
+import twitter.GUI.dao.ChildCommentUserDao;
 import twitter.GUI.dao.CommentUserDao;
-import twitter.GUI.dao.PostInfoDao;
-import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.RoundJButton;
-import twitter.GUI.service.CommentService;
+import twitter.GUI.service.ChildCommentService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,22 +13,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 
-public class CommentPage extends JFrame{
-    private final CommentService commentService = new CommentService();
+public class ChildCommentPage extends JFrame {
+    private final ChildCommentService childCommentService = new ChildCommentService();
     private JPanel panel;
-
-    public CommentPage(PostInfoDao postInfoDao,UserDao userDao, Connection con) {
+    public ChildCommentPage(Integer user_no,JFrame frame, CommentUserDao commentUserDao, Connection con) throws HeadlessException {
         super("Comment");
         setLocationByPlatform(true);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                CommentPage.this.dispose();
-                MainPage mainPage = new MainPage(userDao, con);
-                mainPage.setVisible(true);
+                ChildCommentPage.this.dispose();
+                frame.setVisible(true);
             }
         });
-
 
         panel = new JPanel(new BorderLayout());
         JPanel labels = new JPanel(new GridLayout(0, 1, 0, 1));
@@ -38,20 +34,22 @@ public class CommentPage extends JFrame{
         panel.add(fields, BorderLayout.CENTER);
 
         // get comment and add JPanels
-        boolean flag = commentService.findAllCommentsByPost(this,labels,fields,postInfoDao,userDao, con);
+        boolean flag = childCommentService.findAllChildCommentsByComment(this,labels,fields,commentUserDao, con);
 
         RoundJButton btn = new RoundJButton("Add Comment", 0, Color.GRAY, Color.white);
         add(btn, BorderLayout.PAGE_END);
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String commentText = JOptionPane.showInputDialog(null, "Enter Comment:");
-                if(commentText!=null){
-                    System.out.println("userNo >> postInfoDao.getUser_no() = " + postInfoDao.getUser_no());
-                    System.out.println("PostId >> postInfoDao.getId() = " + postInfoDao.getId());
-                    commentService.createComment(new CommentUserDao(commentText,userDao.getUser_no(),postInfoDao.getId()),con);
-                    dispose();
-                    CommentPage newPage = new CommentPage(postInfoDao,userDao,con);
+                String childCommentText = JOptionPane.showInputDialog(null, "Enter Comment:");
+                if(childCommentText!=null){
+                    ChildCommentUserDao childCommentUserDao = new ChildCommentUserDao();
+                    childCommentUserDao.setText(childCommentText);
+                    childCommentUserDao.setUser_user_no(user_no);
+                    childCommentUserDao.setComment_id(commentUserDao.getComment_id());
+                    childCommentService.createChildComment(childCommentUserDao,con);
+                    ChildCommentPage.this.dispose();
+                    ChildCommentPage newPage = new ChildCommentPage(user_no, frame, commentUserDao, con);
                     newPage.setVisible(true);
                 }
             }

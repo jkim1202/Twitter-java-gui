@@ -4,14 +4,12 @@ import twitter.GUI.dao.PostDao;
 import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.ActionJLabel;
 import twitter.GUI.service.PostService;
+import twitter.Main;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -26,6 +24,15 @@ public class PostWritePage extends JFrame {
     private UserDao userDao;
 
     public PostWritePage(Connection con, UserDao userDao) {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                PostWritePage.this.dispose();
+                MainPage mainPage = new MainPage(userDao, con);
+                mainPage.setVisible(true);
+            }
+        });
+
         this.con = con;
         this.userDao = userDao;
         initializeUI();
@@ -36,7 +43,7 @@ public class PostWritePage extends JFrame {
         setTitle("Post Creation Page");
         setSize(450, 550);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         Container container = getContentPane();
         container.setLayout(new GridLayout(3, 1));

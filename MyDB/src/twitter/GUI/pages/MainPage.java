@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.sql.Connection;
 import java.util.Map;
@@ -18,12 +20,19 @@ public class MainPage extends JFrame {
     public MainPage(UserDao userDao, Connection con) throws HeadlessException {
         super("Twitter Main");
         setTitle("Twitter Main");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int flag = JOptionPane.showConfirmDialog(null, "Are You Sure To Exit Twitter?","Confirm", JOptionPane.OK_CANCEL_OPTION);
+                if(flag == 0){
+                    System.exit(0);
+                }
+            }
+        });
 
         Container container = getContentPane();
-
-        // panel 상하좌우로 10px씩 여백 패딩
-//        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 상단 panel
         JPanel topContainer = new JPanel(new BorderLayout());
@@ -122,12 +131,6 @@ public class MainPage extends JFrame {
         JPanel midPanel = new JPanel();
         midPanel.setBackground(Color.WHITE);
         midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
-
-//        JPanel botPanel = new JPanel(new GridLayout(1, 3));
-//        botPanel.add(new JButton("test button 1"));
-//        botPanel.add(new JButton("test button 2"));
-//        botPanel.add(new JButton("test button 3"));
-
 
         postService.findPosts(midPanel,userDao,con,true);
 
@@ -255,23 +258,14 @@ public class MainPage extends JFrame {
         midPanel.setBackground(Color.WHITE);
         midPanel.setLayout(new BoxLayout(midPanel, BoxLayout.Y_AXIS));
 
-//        JPanel botPanel = new JPanel(new GridLayout(1, 3));
-//        botPanel.add(new JButton("test button 1"));
-//        botPanel.add(new JButton("test button 2"));
-//        botPanel.add(new JButton("test button 3"));
-
-
         postService.findPosts(midPanel,userDao,con,false);
 
         // 중단 JScrollPane
         JScrollPane midScrollPane = new JScrollPane(midPanel);
         midScrollPane.setBorder(BorderFactory.createLineBorder(new Color(234, 232, 232, 173),1));
 
-
-//        add(topPanel, "North");
         add(topContainer,"North");
         container.add(midScrollPane, BorderLayout.CENTER);
-//        add(botPanel, "South");
 
         setSize(450, 550);
         setResizable(false); // Make the frame not resizable

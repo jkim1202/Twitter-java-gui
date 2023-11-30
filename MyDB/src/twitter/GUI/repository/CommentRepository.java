@@ -3,10 +3,8 @@ package twitter.GUI.repository;
 import twitter.GUI.dao.CommentUserDao;
 import twitter.GUI.dao.PostInfoDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CommentRepository {
@@ -31,8 +29,28 @@ public class CommentRepository {
                 }
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new RuntimeException(ex);
         }
         return result;
+    }
+    public void createComment(CommentUserDao commentUserDao, Connection con){
+        try {
+            // Create a new post in the database
+            String createPostQuery = "INSERT INTO comment (comment_text, User_user_no, post_id) VALUES (?, ?, ?)";
+            try (PreparedStatement createPostStatement = con.prepareStatement(createPostQuery, Statement.RETURN_GENERATED_KEYS)) {
+                createPostStatement.setString(1, commentUserDao.getComment_text());
+                createPostStatement.setInt(2, commentUserDao.getUser_user_no());
+                createPostStatement.setInt(3, commentUserDao.getPost_id());
+                int affectedRows = createPostStatement.executeUpdate();
+
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating post failed, no rows affected.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

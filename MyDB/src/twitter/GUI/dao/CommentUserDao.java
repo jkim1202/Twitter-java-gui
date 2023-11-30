@@ -2,10 +2,31 @@ package twitter.GUI.dao;
 
 public class CommentUserDao {
     private Integer comment_id;
+    public CommentUserDao(){
+        super();
+    }
+
+    public CommentUserDao(String comment_text, Integer user_user_no, Integer post_id, String id, String profile_image_url) {
+        this.comment_text = comment_text;
+        this.user_user_no = user_user_no;
+        this.post_id = post_id;
+        this.id = id;
+        this.profile_image_url = profile_image_url;
+    }
+
+    public CommentUserDao(String comment_text, Integer user_user_no, Integer post_id) {
+        this.comment_text = comment_text;
+        this.user_user_no = user_user_no;
+        this.post_id = post_id;
+    }
+
     private String comment_text;
     private Integer user_user_no;
     private Integer post_id;
     private Integer comment_like_cnt;
+
+    // todo: view 수정 및 dao 수정시 삭제해야 함
+    // 중복 attribute
     private Integer user_no;
     private String id;
     private String nickname;

@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.util.Objects;
 
@@ -17,7 +19,16 @@ public class LogInPage extends JFrame {
     public LogInPage(Connection con) {
         super("Twitter Login");
         setTitle("Twitter Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int flag = JOptionPane.showConfirmDialog(null, "Are You Sure To Exit Twitter?","Confirm", JOptionPane.OK_CANCEL_OPTION);
+                if(flag == 0){
+                    System.exit(0);
+                }
+            }
+        });
 
         JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
         panel.setBackground(Color.WHITE);
@@ -55,14 +66,14 @@ public class LogInPage extends JFrame {
         findPassword.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
+                dispose();
                 SwingUtilities.invokeLater(() -> {
-                    UserDao userDao = null; // insert test userDao
-                    MainPage mainPage = new MainPage(userDao,con);
-                    mainPage.setVisible(true);
+                    FindPage findPage = new FindPage(con);
+                    findPage.setVisible(true);
                 });
             }
         });
+
         // 회원가입 JLabel
         ActionJLabel signUp = new ActionJLabel("Sign up for Twitter");
         signUp.setHorizontalAlignment(JLabel.LEFT);
