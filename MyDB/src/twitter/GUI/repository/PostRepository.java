@@ -26,16 +26,28 @@ public class PostRepository {
                 preparedStatement.setInt(1, userDao.getUser_no());
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        PostInfoDao postInfoDao = new PostInfoDao();
-                        postInfoDao.setUser_no(resultSet.getInt("user_no"));
-                        postInfoDao.setId(resultSet.getInt("id"));
-                        postInfoDao.setWriter_id(resultSet.getString("writer_id"));
-                        postInfoDao.setWriter_profile_img_url(resultSet.getString("writer_profile_img_url"));
-                        postInfoDao.setPost_content(resultSet.getString("post_content"));
-                        postInfoDao.setPost_view(1 + resultSet.getInt("post_view"));
-                        postInfoDao.setPost_time(resultSet.getDate("post_time"));
-                        postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
-                        postInfoDao.setImage_urls(resultSet.getString("image_urls"));
+//                        PostInfoDao postInfoDao = new PostInfoDao();
+                        PostInfoDao postInfoDao = new PostInfoDao(
+                                resultSet.getInt("user_no"),
+                                resultSet.getString("writer_id"),
+                                resultSet.getString("writer_profile_img_url"),
+                                resultSet.getInt("id"),
+                                resultSet.getString("post_content"),
+                                1 + resultSet.getInt("post_view"),
+                                resultSet.getDate("post_time"),
+                                resultSet.getInt("user_user_no"),
+                                resultSet.getInt("post_like_count"),
+                                resultSet.getString("image_urls")
+                        );
+//                        postInfoDao.setUser_no(resultSet.getInt("user_no"));
+//                        postInfoDao.setId(resultSet.getInt("id"));
+//                        postInfoDao.setWriter_id(resultSet.getString("writer_id"));
+//                        postInfoDao.setWriter_profile_img_url(resultSet.getString("writer_profile_img_url"));
+//                        postInfoDao.setPost_content(resultSet.getString("post_content"));
+//                        postInfoDao.setPost_view(1 + resultSet.getInt("post_view"));
+//                        postInfoDao.setPost_time(resultSet.getDate("post_time"));
+//                        postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
+//                        postInfoDao.setImage_urls(resultSet.getString("image_urls"));
                         result.add(postInfoDao);
                     }
                     updatePostViews(result, con);
@@ -107,6 +119,7 @@ public class PostRepository {
         return postDao;
     }
 
+    // find all my post
     public ArrayList<PostInfoDao> findAllPostByUser(UserDao userDao, Connection con) {
         ArrayList<PostInfoDao> result = new ArrayList<>();
         String sql = "SELECT * FROM POST_URL WHERE USER_USER_NO = ?";
@@ -116,18 +129,30 @@ public class PostRepository {
                 int i = 0;
                 while (resultSet.next()) {
                     System.out.println("i = " + i++);
-                    PostInfoDao postInfoDao = new PostInfoDao();
-                    postInfoDao.setId(resultSet.getInt("id"));
-                    postInfoDao.setWriter_id(userDao.getId());
-                    postInfoDao.setWriter_profile_img_url(userDao.getProfile_image_url());
-                    postInfoDao.setUser_no(userDao.getUser_no());
-                    postInfoDao.setPost_content(resultSet.getString("post_content"));
-                    postInfoDao.setPost_view(resultSet.getInt("post_view"));
-                    postInfoDao.setPost_time(resultSet.getDate("post_time"));
-                    postInfoDao.setUser_user_no(userDao.getUser_no());
-                    postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
-                    postInfoDao.setImage_urls(resultSet.getString("image_urls"));
+//                    PostInfoDao postInfoDao = new PostInfoDao();
+                    PostInfoDao postInfoDao = new PostInfoDao(
+                            resultSet.getInt("id"),
+                            userDao.getId(),
+                            userDao.getProfile_image_url(),
+                            userDao.getUser_no(),
+                            resultSet.getString("post_content"),
+                            resultSet.getInt("post_view"),
+                            resultSet.getDate("post_time"),
+                            userDao.getUser_no(),
+                            resultSet.getInt("post_like_count"),
+                            resultSet.getString("image_urls")
+                    );
                     result.add(postInfoDao);
+//                    postInfoDao.setId(resultSet.getInt("id"));
+//                    postInfoDao.setWriter_id(userDao.getId());
+//                    postInfoDao.setWriter_profile_img_url(userDao.getProfile_image_url());
+//                    postInfoDao.setUser_no(userDao.getUser_no());
+//                    postInfoDao.setPost_content(resultSet.getString("post_content"));
+//                    postInfoDao.setPost_view(resultSet.getInt("post_view"));
+//                    postInfoDao.setPost_time(resultSet.getDate("post_time"));
+//                    postInfoDao.setUser_user_no(userDao.getUser_no());
+//                    postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
+//                    postInfoDao.setImage_urls(resultSet.getString("image_urls"));
                 }
             }
         } catch (SQLException ex) {

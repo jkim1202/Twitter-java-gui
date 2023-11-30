@@ -27,7 +27,7 @@ public class ActionJLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setForeground(c.darker().darker());
+                setForeground(new Color(0,0,0));
             }
             @Override
             public void mouseExited(MouseEvent e) {

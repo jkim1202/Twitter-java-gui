@@ -67,8 +67,7 @@ public class CommentPage extends JFrame{
         Dimension d = getSize();
         int w = (int) d.getWidth();
         int h = (int) d.getHeight();
-        System.out.println("h = " + h);
-        h = (h > 400 ? 400 : h);
+        h = (Math.min(h, 400));
         Dimension shrinkHeight = new Dimension(w, h);
         if(flag) {
             setSize(shrinkHeight);

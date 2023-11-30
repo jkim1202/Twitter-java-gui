@@ -112,17 +112,6 @@ public class LogInPage extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-//    public static void main(String[] args) {
-//
-//        // page load
-//        SwingUtilities.invokeLater(() -> {
-//            UserDao userDao = null; // insert test userDao
-//            LogInPage logInPage = new LogInPage(finalCon);
-//        });
-////        SwingUtilities.invokeLater(LogInPage::new);
-//    }
-
 }
 
 

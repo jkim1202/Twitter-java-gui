@@ -56,4 +56,16 @@ public class UserDao {
         this.email = user_email;
         this.profile_image_url = user_profile_image_url;
     }
+
+    public UserDao(String id, String password, String email) {
+        this.id = id;
+        this.password = password;
+        this.email = email;
+    }
+
+    public UserDao(Integer user_no,String id, String profile_image_url) {
+        this.user_no = user_no;
+        this.id = id;
+        this.profile_image_url = profile_image_url;
+    }
 }

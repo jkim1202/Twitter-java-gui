@@ -18,6 +18,22 @@ public class PostInfoDao {
     private Integer post_like_count;
     private String image_urls;
 
+    public PostInfoDao(){
+        super();
+    }
+    public PostInfoDao(Integer user_no, String writer_id, String writer_profile_img_url, Integer id, String post_content, Integer post_view, Date post_time, Integer user_user_no, Integer post_like_count, String image_urls) {
+        this.user_no = user_no;
+        this.writer_id = writer_id;
+        this.writer_profile_img_url = writer_profile_img_url;
+        this.id = id;
+        this.post_content = post_content;
+        this.post_view = post_view;
+        this.post_time = post_time;
+        this.user_user_no = user_user_no;
+        this.post_like_count = post_like_count;
+        this.image_urls = image_urls;
+    }
+
     public Integer getUser_no() {
         return user_no;
     }

@@ -3,6 +3,7 @@ package twitter.GUI.pages;
 import twitter.GUI.dao.PostDao;
 import twitter.GUI.dao.UserDao;
 import twitter.GUI.designs.ActionJLabel;
+import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.service.PostService;
 import twitter.Main;
 
@@ -46,7 +47,8 @@ public class PostWritePage extends JFrame {
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         Container container = getContentPane();
-        container.setLayout(new GridLayout(3, 1));
+        JPanel midContainer = new JPanel();
+        midContainer.setLayout(new GridLayout(2, 1));
         JPanel topP = new JPanel();
         JPanel urlP = new JPanel();
         JPanel botP = new JPanel();
@@ -62,7 +64,7 @@ public class PostWritePage extends JFrame {
         imageURLTextField.setPreferredSize(new Dimension(300, 30));
 
         // 제출 버튼
-        submitButton = new JButton("Submit");
+        submitButton = new RoundJButton("Submit",40,13);
         submitButton.setPreferredSize(new Dimension(100, 30));
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -74,16 +76,19 @@ public class PostWritePage extends JFrame {
 
         // 레이아웃 설정
         topP.setLayout(new FlowLayout(FlowLayout.LEFT)); // 왼쪽 정렬
-        topP.add(new JLabel("Enter your post content:"));
-        container.add(topP);
+        JLabel label = new JLabel("Enter your post content:");
+        topP.add(label);
+        midContainer.add(topP);
+        topP.setBackground(Color.white);
         topP.add(contentScrollPane);
-//        container.add(contentScrollPane);
+        topP.setBorder(BorderFactory.createEmptyBorder(10,10,0,0));
 
         urlP.setLayout(new FlowLayout());
-        JButton chooseButton = new JButton("Choose Image");
+        JButton chooseButton = new RoundJButton("Choose Image",40,13);
         urlP.add(new JLabel("Choose images to add: "));
         urlP.add(chooseButton);
-        container.add(urlP);
+        midContainer.add(urlP);
+        urlP.setBackground(Color.white);
         chooseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,7 +116,11 @@ public class PostWritePage extends JFrame {
             }
         });
 
-        container.add(botP);
+//        midContainer.add(botP);
+        botP.setBackground(Color.white);
+
+        container.add(midContainer,"Center");
+        container.add(botP,"South");
     }
 
     private void onPostSubmit(ArrayList<String> urls) {

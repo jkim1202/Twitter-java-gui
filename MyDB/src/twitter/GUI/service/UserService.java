@@ -1,7 +1,9 @@
 package twitter.GUI.service;
 
 
+import twitter.GUI.dao.FollowDao;
 import twitter.GUI.dao.UserDao;
+import twitter.GUI.designs.FollowPanel;
 import twitter.GUI.pages.LogInPage;
 import twitter.GUI.pages.MainPage;
 import twitter.GUI.pages.SignUpPage;
@@ -9,6 +11,7 @@ import twitter.GUI.repository.UserRepository;
 
 import javax.swing.*;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class UserService {
     private final UserRepository userRepository = new UserRepository();
@@ -36,7 +39,43 @@ public class UserService {
             SwingUtilities.invokeLater(() -> {
                 LogInPage logInPage = new LogInPage(con);
             });
-            signUpPage.setVisible(false);
+            signUpPage.dispose();
         }
     }
+    public void changePassword(JFrame frame,UserDao userDao, Connection con){
+        if(userRepository.changePassword(userDao, con) > 0){
+            JOptionPane.showMessageDialog(null, "Your password has been changed!", "Success Changing Password", JOptionPane.INFORMATION_MESSAGE);
+            SwingUtilities.invokeLater(() -> {
+                LogInPage logInPage = new LogInPage(con);
+                logInPage.setVisible(true);
+            });
+            frame.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Check your ID or Email!", "Changing Password Failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public boolean findFollowings(JPanel midPanel, UserDao userDao, Connection con){
+        ArrayList<FollowDao> results = userRepository.findFollowings(userDao, con);
+        if(results.size()==0) return false;
+        else{
+            for (FollowDao result : results){
+                FollowPanel followPanel = new FollowPanel(userDao,result, con);
+                midPanel.add(followPanel);
+            }
+            return true;
+        }
+    }
+    public boolean findFollowers(JPanel midPanel, UserDao userDao, Connection con){
+        ArrayList<FollowDao> results = userRepository.findFollowers(userDao, con);
+        if(results.size()==0) return false;
+        else{
+            for (FollowDao result : results){
+                FollowPanel followPanel = new FollowPanel(userDao,result,con,true);
+                midPanel.add(followPanel);
+            }
+            return true;
+        }
+    }
+
 }

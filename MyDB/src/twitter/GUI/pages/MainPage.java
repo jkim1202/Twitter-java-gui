@@ -65,12 +65,14 @@ public class MainPage extends JFrame {
             }
         });
         rightP.add(rightT);
+        leftP.setBackground(Color.white);
+        rightP.setBackground(Color.white);
         topNav.add(leftP);
         topNav.add(rightP);
 
         // 좌측 상단 profile image
-        String imageURL = "../TwitterLogo.png";
-        ImageJLabel userProfileImage = null;
+        String imageURL = "../defaultProfile.png";
+        ImageJLabel userProfileImage;
         if(userDao.getProfile_image_url()==null)
              userProfileImage = new ImageJLabel(imageURL,40,40);
         else
@@ -88,8 +90,7 @@ public class MainPage extends JFrame {
             }
         });
 
-        ActionJLabel writeLabel = new ActionJLabel("Write");
-        writeLabel.setFont(new Font("SanSerif", Font.BOLD, 16));
+        ImageJLabel writeLabel = new ImageJLabel("../Add2.png",40,40);
         writeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -107,17 +108,12 @@ public class MainPage extends JFrame {
 
 
         // 우측 상단 follow JLabel
-        ActionJLabel followLabel = new ActionJLabel("Follow");
-        followLabel.setFont(new Font("SanSerif", Font.BOLD, 16));
+        ImageJLabel followLabel = new ImageJLabel("../Follow3.png",40,40);
         followLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                /**
-                 * 미완성
-                 * service에서 DAO로 follow 하는 사람들 쿼리로 찾기.
-                 */
-                FollowPage followPage = new FollowPage();
+                dispose();
+                FollowPage followPage = new FollowPage(userDao,con);
             }
         });
         JPanel followPanel = new JPanel();
@@ -126,7 +122,6 @@ public class MainPage extends JFrame {
         GridBagConstraints gbc1 = new GridBagConstraints();
         followPanel.add(followLabel,gbc1);
         topPanel.add(followPanel);
-
 
         JPanel midPanel = new JPanel();
         midPanel.setBackground(Color.WHITE);
@@ -138,11 +133,8 @@ public class MainPage extends JFrame {
         JScrollPane midScrollPane = new JScrollPane(midPanel);
         midScrollPane.setBorder(BorderFactory.createLineBorder(new Color(234, 232, 232, 173),1));
 
-
-//        add(topPanel, "North");
         add(topContainer,"North");
         container.add(midScrollPane, BorderLayout.CENTER);
-//        add(botPanel, "South");
 
         setSize(450, 550);
         setResizable(false); // Make the frame not resizable
@@ -171,6 +163,7 @@ public class MainPage extends JFrame {
 
         // topNav 패널
         JPanel leftP = new JPanel();
+        leftP.setBackground(Color.white);
         var leftT = new ActionJLabel("Follower Post",new Color(130,130,130));
         var rightT = new JLabel("My Post");
         leftP.add(leftT);
@@ -191,6 +184,7 @@ public class MainPage extends JFrame {
             }
         });
         rightP.add(rightT);
+        rightP.setBackground(Color.white);
         topNav.add(leftP);
         topNav.add(rightP);
 
@@ -214,8 +208,7 @@ public class MainPage extends JFrame {
             }
         });
 
-        ActionJLabel writeLabel = new ActionJLabel("Write");
-        writeLabel.setFont(new Font("SanSerif", Font.BOLD, 16));
+        ImageJLabel writeLabel = new ImageJLabel("../Add2.png",40,40);
         writeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -233,17 +226,12 @@ public class MainPage extends JFrame {
 
 
         // 우측 상단 follow JLabel
-        ActionJLabel followLabel = new ActionJLabel("Follow");
-        followLabel.setFont(new Font("SanSerif", Font.BOLD, 16));
+        ImageJLabel followLabel = new ImageJLabel("../Follow3.png",40,40);
         followLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false);
-                /**
-                 * 미완성
-                 * service에서 DAO로 follow 하는 사람들 쿼리로 찾기.
-                 */
-                FollowPage followPage = new FollowPage();
+                dispose();
+                FollowPage followPage = new FollowPage(userDao, con);
             }
         });
         JPanel followPanel = new JPanel();

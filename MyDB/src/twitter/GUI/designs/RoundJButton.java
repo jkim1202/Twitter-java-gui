@@ -5,11 +5,13 @@ import java.awt.*;
 
 public class RoundJButton extends JButton {
     private int arcSize = 0;
+    private int fontSize = 16;
     private Color textC = new Color(255,255,255);
     private Color bntC = new Color(82, 182, 236);
     public RoundJButton() { super(); decorate(); }
     public RoundJButton(String text) { super(text); decorate(); }
     public RoundJButton(String text, int newArcSize) { super(text); arcSize=newArcSize; decorate(); }
+    public RoundJButton(String text, int newArcSize, int fontSize) { super(text);this.fontSize = fontSize; arcSize=newArcSize; decorate(); }
     public RoundJButton(String text, int newArcSize, Color bntColor, Color textColor) { super(text);
         arcSize=newArcSize; decorate();
         textC = textColor;
@@ -38,7 +40,7 @@ public class RoundJButton extends JButton {
         int textY = (height - stringBounds.height) / 2 + fontMetrics.getAscent();
         graphics.setColor(o);
 //        graphics.setFont(getFont());
-        graphics.setFont(new Font("sans-serif",Font.PLAIN,16));
+        graphics.setFont(new Font("sans-serif",Font.PLAIN,fontSize));
         graphics.drawString(getText(), textX, textY);
         graphics.dispose();
         super.paintComponent(g);

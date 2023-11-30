@@ -1,29 +1,3 @@
-//package twitter.GUI.designs;
-//
-//import twitter.GUI.pages.LogInPage;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.util.Objects;
-//
-//public class ImageJLabel extends JLabel {
-//    public ImageJLabel(String url, int width, int height) {
-//
-//        super();
-//        ImageIcon icon = new ImageIcon(
-//                Objects.requireNonNull(LogInPage.class.getResource("../TwitterLogo.png"))
-//        );
-//        if(url!=null){
-//            System.out.println("url = " + url);
-//            icon = new ImageIcon(Objects.requireNonNull(LogInPage.class.getResource(url))
-//            );
-//        }
-//        Image img = icon.getImage();
-//        Image updateImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//        ImageIcon updateIcon = new ImageIcon(updateImg);
-//        setIcon(updateIcon);
-//    }
-//}
 package twitter.GUI.designs;
 
 import javax.swing.*;
