@@ -50,8 +50,12 @@ public class SignUpPage extends JFrame {
             String userEmail = email.getText();
             char[] userPassword = password.getPassword();
             String strPassword = new String(userPassword);
-
-            userService.signUpUser(userId,userAnswer,userEmail,strPassword,con,this);
+            if(userAnswer==null || userId==null || userEmail == null || userPassword == null){
+                JOptionPane.showMessageDialog(null,"There is blank field. Fill every fields.","Failure",JOptionPane.WARNING_MESSAGE);
+            }
+            else {
+                userService.signUpUser(userId,userAnswer,userEmail,strPassword,con,this);
+            }
         });
 
 

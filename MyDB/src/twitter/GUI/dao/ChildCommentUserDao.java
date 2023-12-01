@@ -13,7 +13,7 @@ public class ChildCommentUserDao {
     private Integer user_user_no;
     private Integer comment_id;
     private String user_id;
-    private String nickname;
+    private String profile;
     private String profile_image_url;
 
     public void setId(Integer id) {
@@ -36,8 +36,8 @@ public class ChildCommentUserDao {
         this.user_id = user_id;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public void setProfile_image_url(String profile_image_url) {
@@ -64,8 +64,8 @@ public class ChildCommentUserDao {
         return user_id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getProfile() {
+        return profile;
     }
 
     public String getProfile_image_url() {

@@ -58,6 +58,12 @@ public class FindPage extends JFrame {
                     UserDao changedUserDao = new UserDao(userId, strPassword, userEmail);
                     userService.changePassword(FindPage.this, changedUserDao, con);
                 }
+                else{
+                    JOptionPane.showMessageDialog(null,"Your answer does not match! Try again.","Failure",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Check your ID or Email.","Failure",JOptionPane.WARNING_MESSAGE);
             }
         });
 

@@ -20,7 +20,7 @@ public class ChildCommentRepository {
                     childCommentUserDao.setUser_user_no(resultSet.getInt("user_user_no"));
                     childCommentUserDao.setComment_id(resultSet.getInt("comment_id"));
                     childCommentUserDao.setUser_id(resultSet.getString("id"));
-                    childCommentUserDao.setNickname(resultSet.getString("nickname"));
+                    childCommentUserDao.setProfile(resultSet.getString("profile"));
                     childCommentUserDao.setProfile_image_url(resultSet.getString("profile_image_url"));
 
                     result.add(childCommentUserDao);

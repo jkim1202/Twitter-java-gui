@@ -51,11 +51,15 @@ public class FollowPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String findUserId = search.getText();
-                JOptionPane.showConfirmDialog(null, "Agree with following?","Confirm",JOptionPane.YES_NO_OPTION);
-                userService.createFollow(findUserId, userDao, con);
-                FollowPage.this.dispose();
-                FollowPage page = new FollowPage(userDao, con);
-                page.setVisible(true);
+                if(findUserId.equals(userDao.getId())){
+                    JOptionPane.showMessageDialog(null, "Can not follow yourself.", "Failure", JOptionPane.WARNING_MESSAGE);
+                }
+                else if(JOptionPane.showConfirmDialog(null, "Agree with following?","Confirm",JOptionPane.YES_NO_OPTION) == 0){
+                    userService.createFollow(findUserId, userDao, con);
+                    FollowPage.this.dispose();
+                    FollowPage page = new FollowPage(userDao, con);
+                    page.setVisible(true);
+                }
             }
         });
         searchP.add(search,"Center");

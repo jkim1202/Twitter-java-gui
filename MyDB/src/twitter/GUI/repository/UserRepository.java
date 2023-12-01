@@ -202,7 +202,7 @@ public class UserRepository {
             pstm.setInt(1, userDao.getUser_no());
             rs = pstm.executeQuery();
             if (rs.next()) {
-                String insertSql = "UPDATE USER SET PASSWORD = ?, ID = ?, EMAIL = ?, NICKNAME = ?, PROFILE_IMAGE_URL = ? WHERE USER_NO = ?";
+                String insertSql = "UPDATE USER SET PASSWORD = ?, ID = ?, EMAIL = ?, PROFILE = ?, PROFILE_IMAGE_URL = ? WHERE USER_NO = ?";
                 pstm = con.prepareStatement(insertSql);
                 pstm.setString(1, userDao.getPassword());
                 pstm.setString(2, userDao.getId());
