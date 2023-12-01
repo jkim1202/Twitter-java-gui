@@ -4,6 +4,8 @@ import twitter.GUI.dao.LikePostDao;
 import twitter.GUI.dao.PostInfoDao;
 import twitter.GUI.dao.UserDao;
 import twitter.GUI.pages.CommentPage;
+import twitter.GUI.pages.MainPage;
+import twitter.GUI.repository.PostRepository;
 import twitter.GUI.service.LikePostService;
 
 import javax.swing.*;
@@ -19,11 +21,9 @@ public class PostJPanel extends JPanel {
     private PostInfoDao postInfoDao;
     private LikePostService likePostService = new LikePostService();
 
-    public PostJPanel(PostInfoDao postInfoDao, UserDao user, Connection con) {
+    public PostJPanel(PostInfoDao postInfoDao, UserDao user, Connection con, boolean bool) {
         super();
         this.postInfoDao = postInfoDao;
-        /*
-         * 게시물 정보 쿼리로 조회해서 넘겨 받으면 패널 안에 게시물 형태로 생성 시키기*/
 
         String postText = postInfoDao.getPost_content();
         String[] parts;
@@ -95,7 +95,17 @@ public class PostJPanel extends JPanel {
         // 하단 JPanel (좋아요, 댓글, view)
         // 댓글은 누르면 댓글 페이지로 전환
         JPanel bottomP = new JPanel();
-        bottomP.setLayout(new GridLayout(1, 3));
+        bottomP.setBackground(Color.white);
+        if(bool){
+            bottomP.setLayout(new GridLayout(1, 3));
+        }
+        else {
+            bottomP.setLayout(new GridLayout(1, 4));
+        }
+
+        bottomP.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        JPanel fixP = new JPanel();
+        fixP.setBackground(Color.white);
         JPanel likeP = new JPanel();
         likeP.setBackground(Color.white);
         JPanel commentP = new JPanel();
@@ -104,6 +114,9 @@ public class PostJPanel extends JPanel {
         viewP.setBackground(Color.white);
         bottomP.add(likeP);
         bottomP.add(commentP);
+        if(!bool){
+            bottomP.add(fixP);
+        }
         bottomP.add(viewP);
         centerP.add(bottomP);
 
@@ -171,6 +184,50 @@ public class PostJPanel extends JPanel {
                 commentP.setBackground(Color.white);
             }
         });
+        commentP.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
+                if (frame != null) {
+                    frame.setVisible(false);
+                    CommentPage commentPage =   new CommentPage(postInfoDao,user, con);
+                    commentPage.setVisible(true);
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                commentP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                commentP.setBackground(Color.white);
+            }
+        });
+        commentP.add(comment);
+        ImageJLabel fix = new ImageJLabel("../Fixing.png", 20, 20);
+        fix.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(PostJPanel.this);
+                if (frame != null) {
+                    new PostRepository().updateFixed(postInfoDao.getId(),con);
+                    frame.dispose();
+                    MainPage page = new MainPage(user,con,false);
+                    page.setVisible(true);
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                fixP.setBackground(Color.white.darker());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                fixP.setBackground(Color.white);
+            }
+        });
+        fixP.add(fix);
         commentP.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

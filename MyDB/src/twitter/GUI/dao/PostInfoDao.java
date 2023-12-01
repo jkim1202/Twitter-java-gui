@@ -18,6 +18,12 @@ public class PostInfoDao {
     private Integer post_like_count;
     private String image_urls;
 
+    public void setPost_fixed(Boolean post_fixed) {
+        this.post_fixed = post_fixed;
+    }
+
+    private Boolean post_fixed;
+
     public PostInfoDao(){
         super();
     }
@@ -112,5 +118,9 @@ public class PostInfoDao {
 
     public void setImage_urls(String image_urls) {
         this.image_urls = image_urls;
+    }
+
+    public Boolean getPost_fixed() {
+        return post_fixed;
     }
 }

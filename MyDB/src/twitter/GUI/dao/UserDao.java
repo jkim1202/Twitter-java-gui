@@ -2,22 +2,26 @@ package twitter.GUI.dao;
 
 import java.util.Date;
 
-/*user_no int AI PK
-id varchar(45)
-password varchar(20)
-nickname varchar(20)
-start_date date
-email varchar(40)
-profile_image_url varchar(45)*/
-
 public class UserDao {
     private Integer user_no;
     private String id;
     private String password;
-    private String nickname;
+    private String profile;
     private Date start_date;
     private String email;
     private String profile_image_url;
+    private String answer;
+
+    public UserDao(Integer user_no, String id, String password, String profile, Date start_date, String email, String profile_image_url, String answer) {
+        this.user_no = user_no;
+        this.id = id;
+        this.password = password;
+        this.profile = profile;
+        this.start_date = start_date;
+        this.email = email;
+        this.profile_image_url = profile_image_url;
+        this.answer = answer;
+    }
 
     public int getUser_no() {
         return user_no;
@@ -31,8 +35,8 @@ public class UserDao {
         return password;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getProfile() {
+        return profile;
     }
 
     public Date getStart_date() {
@@ -47,11 +51,15 @@ public class UserDao {
         return profile_image_url;
     }
 
-    public UserDao(Integer user_no, String user_id, String user_password, String user_nickname, Date user_start_date, String user_email, String user_profile_image_url) {
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public UserDao(Integer user_no, String user_id, String user_password, String user_profile, Date user_start_date, String user_email, String user_profile_image_url) {
         this.user_no = user_no;
         this.id = user_id;
         this.password = user_password;
-        this.nickname = user_nickname;
+        this.profile = user_profile;
         this.start_date = user_start_date;
         this.email = user_email;
         this.profile_image_url = user_profile_image_url;
@@ -67,5 +75,37 @@ public class UserDao {
         this.user_no = user_no;
         this.id = id;
         this.profile_image_url = profile_image_url;
+    }
+
+    public void setUser_no(Integer user_no) {
+        this.user_no = user_no;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setProfile_image_url(String profile_image_url) {
+        this.profile_image_url = profile_image_url;
+    }
+
+    public String getAnswer() {
+        return answer;
     }
 }

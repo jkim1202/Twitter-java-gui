@@ -28,7 +28,7 @@ public class FindPage extends JFrame {
             }
         });
 
-        ImageJLabel twitterLogo = new ImageJLabel("../TwitterLogo.png", 40,40);
+        ImageJLabel twitterLogo = new ImageJLabel("../TwitterLogo.png", 40, 40);
 
         JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
         panel.setBackground(Color.WHITE);
@@ -47,14 +47,18 @@ public class FindPage extends JFrame {
         RoundJButton button = new RoundJButton("Change Password", 60);
 
         button.addActionListener(e -> {
-            String userId = id.getText();
-            String userEmail = email.getText();
-            char[] userPassword = password.getPassword();
-            String strPassword = new String(userPassword);
-
-            UserDao userDao = new UserDao(userId, strPassword, userEmail);
-
-            userService.changePassword(FindPage.this,userDao, con);
+            UserDao userDao = userService.findUserByIdAndEmail(id.getText(), email.getText(), con);
+            if (userDao != null) {
+                String userId = id.getText();
+                String userEmail = email.getText();
+                char[] userPassword = password.getPassword();
+                String strPassword = new String(userPassword);
+                String answer = JOptionPane.showInputDialog(null,"What is the name of city of birth?", "Authentication");
+                if(answer.equals(userDao.getAnswer())){
+                    UserDao changedUserDao = new UserDao(userId, strPassword, userEmail);
+                    userService.changePassword(FindPage.this, changedUserDao, con);
+                }
+            }
         });
 
         panel.add(twitterLogo);

@@ -85,7 +85,7 @@ public class MainPage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
-                AccountPage accountPage = new AccountPage();
+                AccountPage accountPage = new AccountPage(userDao,con);
                 accountPage.setVisible(true);
             }
         });
@@ -149,8 +149,6 @@ public class MainPage extends JFrame {
 
         Container container = getContentPane();
 
-        // panel 상하좌우로 10px씩 여백 패딩
-//        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 상단 panel
         JPanel topContainer = new JPanel(new BorderLayout());
@@ -203,7 +201,7 @@ public class MainPage extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setVisible(false);
-                AccountPage accountPage = new AccountPage();
+                AccountPage accountPage = new AccountPage(userDao,con);
                 accountPage.setVisible(true);
             }
         });

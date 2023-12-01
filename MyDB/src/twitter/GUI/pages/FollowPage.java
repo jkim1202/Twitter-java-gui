@@ -1,19 +1,17 @@
 package twitter.GUI.pages;
 
 import twitter.GUI.dao.UserDao;
-import twitter.GUI.designs.*;
+import twitter.GUI.designs.ActionJLabel;
+import twitter.GUI.designs.IconTextField;
+import twitter.GUI.designs.RoundJButton;
 import twitter.GUI.service.UserService;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.sql.Connection;
 import java.util.Map;
-import java.util.Objects;
 
 public class FollowPage extends JFrame {
     private final UserService userService = new UserService();
@@ -33,7 +31,6 @@ public class FollowPage extends JFrame {
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
         JPanel midPanel = new JPanel();
-//        midPanel.setLayout(new BoxLayout(midPanel,BoxLayout.Y_AXIS));
         midPanel.setLayout(new GridLayout(0,1,1,1));
 
         // 중단 JScrollPane
@@ -50,6 +47,17 @@ public class FollowPage extends JFrame {
 
         IconTextField search = new IconTextField(new JTextField(),"Image","Search user to follow by ID");
         RoundJButton searchBut = new RoundJButton("Search",10,14);
+        searchBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String findUserId = search.getText();
+                JOptionPane.showConfirmDialog(null, "Agree with following?","Confirm",JOptionPane.YES_NO_OPTION);
+                userService.createFollow(findUserId, userDao, con);
+                FollowPage.this.dispose();
+                FollowPage page = new FollowPage(userDao, con);
+                page.setVisible(true);
+            }
+        });
         searchP.add(search,"Center");
         searchP.add(searchBut,"East");
 
@@ -93,10 +101,10 @@ public class FollowPage extends JFrame {
         if(flag) {
             setSize(shrinkHeight);
         } else{
-            setSize(400,100);
+            setSize(400,300);
             JLabel noFollowing = new JLabel("Start Following!");
             noFollowing.setHorizontalAlignment(SwingConstants.CENTER);
-            noFollowing.setSize(400,300);
+            noFollowing.setSize(400,200);
             container.add(noFollowing, "Center");
         }
         setResizable(false); // Make the frame not resizable
@@ -178,10 +186,10 @@ public class FollowPage extends JFrame {
         if(flag) {
             setSize(shrinkHeight);
         } else{
-            setSize(400,100);
+            setSize(400,300);
             JLabel noFollowing = new JLabel("Start Following!");
             noFollowing.setHorizontalAlignment(SwingConstants.CENTER);
-            noFollowing.setSize(400,300);
+            noFollowing.setSize(400,200);
             container.add(noFollowing, "Center");
         }
         setResizable(false); // Make the frame not resizable

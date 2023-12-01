@@ -20,7 +20,7 @@ public class PostRepository {
                 preparedStatement.executeUpdate();
                 System.out.println("sql_mode set successfully");
             }
-            String sql = "SELECT * FROM Post_Info WHERE user_no = ?";
+            String sql = "SELECT * FROM Post_Info WHERE user_no = ? ORDER BY ID DESC";
 
             try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
                 preparedStatement.setInt(1, userDao.getUser_no());
@@ -39,15 +39,6 @@ public class PostRepository {
                                 resultSet.getInt("post_like_count"),
                                 resultSet.getString("image_urls")
                         );
-//                        postInfoDao.setUser_no(resultSet.getInt("user_no"));
-//                        postInfoDao.setId(resultSet.getInt("id"));
-//                        postInfoDao.setWriter_id(resultSet.getString("writer_id"));
-//                        postInfoDao.setWriter_profile_img_url(resultSet.getString("writer_profile_img_url"));
-//                        postInfoDao.setPost_content(resultSet.getString("post_content"));
-//                        postInfoDao.setPost_view(1 + resultSet.getInt("post_view"));
-//                        postInfoDao.setPost_time(resultSet.getDate("post_time"));
-//                        postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
-//                        postInfoDao.setImage_urls(resultSet.getString("image_urls"));
                         result.add(postInfoDao);
                     }
                     updatePostViews(result, con);
@@ -122,7 +113,7 @@ public class PostRepository {
     // find all my post
     public ArrayList<PostInfoDao> findAllPostByUser(UserDao userDao, Connection con) {
         ArrayList<PostInfoDao> result = new ArrayList<>();
-        String sql = "SELECT * FROM POST_URL WHERE USER_USER_NO = ?";
+        String sql = "SELECT * FROM POST_URL WHERE USER_USER_NO = ? ORDER BY ID DESC";
         try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
             preparedStatement.setInt(1, userDao.getUser_no());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -134,7 +125,7 @@ public class PostRepository {
                             resultSet.getInt("id"),
                             userDao.getId(),
                             userDao.getProfile_image_url(),
-                            userDao.getUser_no(),
+                            resultSet.getInt("ID"),
                             resultSet.getString("post_content"),
                             resultSet.getInt("post_view"),
                             resultSet.getDate("post_time"),
@@ -142,23 +133,43 @@ public class PostRepository {
                             resultSet.getInt("post_like_count"),
                             resultSet.getString("image_urls")
                     );
-                    result.add(postInfoDao);
-//                    postInfoDao.setId(resultSet.getInt("id"));
-//                    postInfoDao.setWriter_id(userDao.getId());
-//                    postInfoDao.setWriter_profile_img_url(userDao.getProfile_image_url());
-//                    postInfoDao.setUser_no(userDao.getUser_no());
-//                    postInfoDao.setPost_content(resultSet.getString("post_content"));
-//                    postInfoDao.setPost_view(resultSet.getInt("post_view"));
-//                    postInfoDao.setPost_time(resultSet.getDate("post_time"));
-//                    postInfoDao.setUser_user_no(userDao.getUser_no());
-//                    postInfoDao.setPost_like_count(resultSet.getInt("post_like_count"));
-//                    postInfoDao.setImage_urls(resultSet.getString("image_urls"));
+                    postInfoDao.setPost_fixed(resultSet.getBoolean("post_fixed"));
+                    if (postInfoDao.getPost_fixed())
+                        result.add(0, postInfoDao);
+                    else
+                        result.add(postInfoDao);
                 }
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return result;
+
+    }
+
+    public void updateFixed(Integer post_id, Connection con) {
+        try {
+            // Create a new post in the database
+            String createPostQuery1 = "UPDATE POST SET POST_FIXED = 0 WHERE POST_FIXED = 1";
+            Statement statement = con.createStatement();
+            int affectedRows1 = statement.executeUpdate(createPostQuery1);
+            if (affectedRows1 == 0) {
+                System.out.println("unfix failed");
+            }
+
+            String createPostQuery = "UPDATE POST SET POST_FIXED = 1 WHERE ID = ?";
+            PreparedStatement createPostStatement = con.prepareStatement(createPostQuery, Statement.RETURN_GENERATED_KEYS);
+            createPostStatement.setInt(1, post_id);
+            System.out.println("post_id = " + post_id);
+            int affectedRows = createPostStatement.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("fix failed");
+                throw new SQLException("Post Fix Failed");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

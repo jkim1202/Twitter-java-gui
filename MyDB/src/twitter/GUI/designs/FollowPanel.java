@@ -3,17 +3,13 @@ package twitter.GUI.designs;
 import twitter.GUI.dao.FollowDao;
 import twitter.GUI.dao.UserDao;
 import twitter.GUI.pages.FollowPage;
-import twitter.GUI.pages.LogInPage;
-import twitter.GUI.pages.MainPage;
 import twitter.GUI.repository.UserRepository;
-import twitter.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.util.Objects;
 
 public class FollowPanel extends JPanel {
     public UserDao userDao;
@@ -39,7 +35,8 @@ public class FollowPanel extends JPanel {
 
         // Follower,Following user info JLabel
         JLabel userId = new JLabel("id: "+followDao.getId());
-//        JLabel userNickname = new JLabel("nickname: "+userDao.getNickname());
+        JLabel userProfile = new JLabel(followDao.getProfile());
+        userProfile.setFont(new Font("sans-serif",Font.PLAIN,12));
 
         JButton button = new  JButton("Unfollow");
         button.addActionListener(new ActionListener() {
@@ -62,7 +59,7 @@ public class FollowPanel extends JPanel {
         button.setSize(100,50);
 
         infoContainer.add(userId);
-//        infoContainer.add(userNickname);
+        infoContainer.add(userProfile);
         imgContainer.add(profileImg);
         buttonContainer.add(button);
 
@@ -95,7 +92,8 @@ public class FollowPanel extends JPanel {
 
         // Follower,Following user info JLabel
         JLabel userId = new JLabel("id: "+followDao.getId());
-//        JLabel userNickname = new JLabel("nickname: "+userDao.getNickname());
+        JLabel userProfile = new JLabel(followDao.getProfile());
+        userProfile.setFont(new Font("sans-serif",Font.PLAIN,12));
 
         JButton button = new  JButton("Remove");
         button.addActionListener(new ActionListener() {
@@ -118,7 +116,7 @@ public class FollowPanel extends JPanel {
         button.setSize(100,50);
 
         infoContainer.add(userId);
-//        infoContainer.add(userNickname);
+        infoContainer.add(userProfile);
         imgContainer.add(profileImg);
         buttonContainer.add(button);
 

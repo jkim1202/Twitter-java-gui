@@ -36,7 +36,7 @@ public class SignUpPage extends JFrame {
         header.setFont(new Font("sans-serif", Font.BOLD, 26));
         header.setHorizontalAlignment(JLabel.CENTER);
         RoundJTextField id =  new RoundJTextField("Enter your ID here",true);
-        RoundJTextField nickname = new RoundJTextField("Enter your nickname here",true);
+        RoundJTextField answer = new RoundJTextField("What is the name of the city of birth?",true);
         RoundJTextField email = new RoundJTextField("Enter your email here",true);
         // password JPasswordField
         RoundJPasswordField password = new RoundJPasswordField();
@@ -46,19 +46,19 @@ public class SignUpPage extends JFrame {
 
         button.addActionListener(e -> {
             String userId = id.getText();
-            String userNickname = nickname.getText();
+            String userAnswer = answer.getText();
             String userEmail = email.getText();
             char[] userPassword = password.getPassword();
             String strPassword = new String(userPassword);
 
-            userService.signUpUser(userId,userNickname,userEmail,strPassword,con,this);
+            userService.signUpUser(userId,userAnswer,userEmail,strPassword,con,this);
         });
 
 
         panel.add(header);
         panel.add(id);
-        panel.add(nickname);
         panel.add(email);
+        panel.add(answer);
         panel.add(password);
         panel.add(button);
         add(panel);
